@@ -1,19 +1,19 @@
 .backgroundGradient {
+	overflow: hidden;
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
-	background-color: #917878;
 	opacity: 0.39;
+	background-color: #917878;
 
 	.circle1 {
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -50%);
 		width: 52.18rem;
 		height: 51.2rem;
-		background-color: #504141;
 		border-radius: 100%;
+		background-color: #504141;
+		transform: translate(-50%, -50%);
 	}
 
 	.circle2 {
@@ -22,8 +22,8 @@
 		right: -4.6rem;
 		width: 44.19rem;
 		height: 48.75rem;
-		background-color: #a59191;
 		border-radius: 100%;
+		background-color: #a59191;
 	}
 
 	.circle3 {
@@ -32,8 +32,8 @@
 		left: -9.84rem;
 		width: 53.35rem;
 		height: 50.37rem;
-		background-color: #695656;
 		border-radius: 100%;
+		background-color: #695656;
 	}
 
 	.circle4 {
@@ -42,8 +42,8 @@
 		left: -14.75rem;
 		width: 47.73rem;
 		height: 41.84rem;
-		background-color: #786262;
 		border-radius: 100%;
+		background-color: #786262;
 	}
 
 	.circle5 {
@@ -52,8 +52,8 @@
 		right: -20.02rem;
 		width: 49.62rem;
 		height: 54.54rem;
-		background-color: #362c2c;
 		border-radius: 100%;
+		background-color: #362c2c;
 	}
 
 	.topLayer {

@@ -6,27 +6,22 @@ interface DataProviderProps {
 }
 
 const defaultProfile = {
-	name: 'Loading',
-	age: 0,
+	characterName: 'Name',
+	age: '',
 	eyeColor: '',
 	created: '',
 	vehicles: [''],
 };
 
 export const ProfileDataContext = createContext({
-	profile: {
-		name: '',
-		age: 0,
-		eyeColor: '',
-		created: '',
-		vehicles: [''],
-	},
+	profile: defaultProfile,
 	incrementEndpointCounter: () => {},
 });
 
 const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 	const [endpointCounter, setEndpointCounter] = useState(1);
 	const [profile, setProfile] = useState(defaultProfile);
+
 	const API_URL = `https://swapi.py4e.com/api/people/${endpointCounter}/`;
 
 	const incrementEndpointCounter = () => {
@@ -35,11 +30,11 @@ const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 		setProfile(defaultProfile);
 	};
 
-	const handleAge = (age: string): any => {
+	const ageToNumber = (age: string): string => {
 		if (age === 'unknown') {
 			return age;
 		} else {
-			return parseInt(age);
+			return age.replace(/\D/g, '');
 		}
 	};
 
@@ -49,13 +44,15 @@ const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 			.then(({ name, birth_year, eye_color, created, vehicles }) =>
 				setProfile({
 					...profile,
-					name,
-					age: handleAge(birth_year),
+					characterName: name,
+					age: ageToNumber(birth_year),
 					eyeColor: eye_color,
 					created,
 					vehicles,
 				})
-			);
+			)
+			.catch((err) => console.log(err));
+		// eslint-disable-next-line
 	}, [endpointCounter]);
 
 	return (

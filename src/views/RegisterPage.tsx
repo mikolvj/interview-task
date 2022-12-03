@@ -1,7 +1,7 @@
+import classes from 'views/RegisterPage.module.scss';
 import { Checkbox, CheckboxInvalid } from 'components/Icons';
 import { useState, useContext } from 'react';
 import { ProfileDataContext } from 'providers/DataProvider';
-import classes from 'views/RegisterPage.module.scss';
 
 const defualtFormValue = {
 	login: '',
@@ -16,20 +16,24 @@ const defaultErrorValue = {
 	checkbox: false,
 };
 
+const digitOnly = /^\d+$/;
+
 const RegisterPage: React.FC = () => {
 	const [formValue, setFormValue] = useState(defualtFormValue);
 	const [checkboxState, setCheckboxState] = useState(false);
 	const [error, setError] = useState(defaultErrorValue);
 
 	const {
-		profile: { name, created, vehicles },
+		profile: { characterName, created, vehicles },
 	} = useContext(ProfileDataContext);
 
-	const handleOnChange = (e: any) => {
+	const star_wars_data = JSON.stringify([characterName, created, vehicles]);
+
+	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
 		if (
 			e.target.id === 'phone' &&
-			(isNaN(e.target.value) || e.target.value.length === 10)
+			(!digitOnly.test(e.target.value) || e.target.value['length'] === 10)
 		)
 			return;
 		if (e.target.id === 'email' && e.target.value === '@') return;
@@ -43,7 +47,7 @@ const RegisterPage: React.FC = () => {
 		setCheckboxState((prev) => !prev);
 	};
 
-	const handleSubmit = (e: any) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (
 			!formValue.email.includes('@') ||
@@ -59,11 +63,7 @@ const RegisterPage: React.FC = () => {
 			setError(defaultErrorValue);
 			fetch('https://example', {
 				method: 'POST',
-				body: JSON.stringify(formValue),
-			});
-			fetch('https://example', {
-				method: 'POST',
-				body: JSON.stringify([name, created, vehicles]),
+				body: JSON.stringify({ formValue, star_wars_data }),
 			});
 		}
 	};
@@ -118,7 +118,7 @@ const RegisterPage: React.FC = () => {
 
 				<div
 					className={`${classes.checkboxContainer} ${
-						error.checkbox && classes.invalid
+						error.checkbox ? classes.invalid : ''
 					}`}
 				>
 					<label>
@@ -126,7 +126,7 @@ const RegisterPage: React.FC = () => {
 						<span className={classes.altCheckbox}>
 							{error.checkbox ? <CheckboxInvalid /> : <Checkbox />}
 						</span>
-						Akceptuję Regulamin
+						<p>Akceptuję Regulamin</p>
 					</label>
 				</div>
 				<button type='submit' className={classes.submitBtn}>

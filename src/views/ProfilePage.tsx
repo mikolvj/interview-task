@@ -1,14 +1,15 @@
-import ProfileBackgroundGradient from 'components/ProfileBackgroundGradient';
-import { IconCheck, IconStar } from 'components/Icons';
 import classes from 'views/ProfilePage.module.scss';
 import { useContext } from 'react';
-import { ProfileDataContext } from 'providers/DataProvider';
-
 import { NavLink } from 'react-router-dom';
+import { IconCheck, IconStar } from 'components/Icons';
+import { ProfileDataContext } from 'providers/DataProvider';
+import ProfileBackgroundGradient from 'components/ProfileBackgroundGradient';
 
 const ProfilePage: React.FC = () => {
-
-	const ctx = useContext(ProfileDataContext);
+	const {
+		incrementEndpointCounter,
+		profile: { characterName, age, eyeColor },
+	} = useContext(ProfileDataContext);
 
 	return (
 		<div className={classes.wrapper}>
@@ -23,11 +24,11 @@ const ProfilePage: React.FC = () => {
 					<ProfileBackgroundGradient />
 					<div className={classes.profileImage} />
 					<div className={classes.profileContent}>
-						<h1 className={ctx.profile.name.length > 15 ? classes.smaller : ''}>
-							{ctx.profile.name}
+						<h1 className={characterName.length > 15 ? classes.smallerText : ''}>
+							{characterName}
 						</h1>
-						<h2>age: {ctx.profile.age}</h2>
-						<h2>eye color: {ctx.profile.eyeColor}</h2>
+						<h2>age: {age}</h2>
+						<h2>eye color: {eyeColor}</h2>
 						<div className={classes.iconStar}>
 							<IconStar />
 						</div>
@@ -38,7 +39,7 @@ const ProfilePage: React.FC = () => {
 				</div>
 				<div
 					className={classes.buttonNextProfile}
-					onClick={ctx.incrementEndpointCounter}
+					onClick={incrementEndpointCounter}
 				>
 					next profiles
 				</div>
