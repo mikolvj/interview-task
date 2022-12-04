@@ -73,14 +73,18 @@ const RegisterPage: React.FC = () => {
 			<h1>Formularz rejestracyjny</h1>
 
 			<form onSubmit={handleSubmit}>
-				<label className={classes.labelLogin}>Login:</label>
+				<label htmlFor='login' className={classes.labelLogin}>
+					Login:
+				</label>
 				<input
 					id='login'
 					type='text'
 					value={formValue.login}
 					onChange={handleOnChange}
 				/>
-				<label className={classes.labelPassword}>Hasło:</label>
+				<label htmlFor='password' className={classes.labelPassword}>
+					Hasło:
+				</label>
 				<input
 					id='password'
 					type='password'
@@ -89,6 +93,7 @@ const RegisterPage: React.FC = () => {
 				/>
 
 				<label
+					htmlFor='email'
 					className={`${classes.labelEmail} ${
 						error.email ? classes.invalid : ''
 					}`}
@@ -103,6 +108,7 @@ const RegisterPage: React.FC = () => {
 				/>
 
 				<label
+					htmlFor='phone'
 					className={`${classes.labelPhone} ${
 						error.phone ? classes.invalid : ''
 					}`}
