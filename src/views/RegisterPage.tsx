@@ -1,27 +1,29 @@
 import classes from 'views/RegisterPage.module.scss';
 import { Checkbox, CheckboxInvalid } from 'components/Icons';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import { ProfileDataContext } from 'providers/DataProvider';
 
-const defualtFormValue = {
-	login: '',
-	password: '',
-	email: '',
-	phone: '',
-};
+interface Profile {
+	login: string;
+	password: string;
+	email: string;
+	phone: string;
+	checkbox: boolean;
+}
 
-const defaultErrorValue = {
-	email: false,
-	phone: false,
-	checkbox: false,
-};
-
-const digitOnly = /^\d+$/;
+const isValidEmail = (email: string) =>
+	// eslint-disable-next-line no-useless-escape
+	/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+		email
+	);
 
 const RegisterPage: React.FC = () => {
-	const [formValue, setFormValue] = useState(defualtFormValue);
-	const [checkboxState, setCheckboxState] = useState(false);
-	const [error, setError] = useState(defaultErrorValue);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<Profile>();
 
 	const {
 		profile: { characterName, created, vehicles },
@@ -29,102 +31,100 @@ const RegisterPage: React.FC = () => {
 
 	const star_wars_data = JSON.stringify([characterName, created, vehicles]);
 
-	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault();
-		if (
-			e.target.id === 'phone' &&
-			(!digitOnly.test(e.target.value) || e.target.value['length'] === 10)
-		)
-			return;
-		if (e.target.id === 'email' && e.target.value === '@') return;
-		setFormValue({
-			...formValue,
-			[e.target.id]: e.target.value,
+	const onSubmit = handleSubmit(({ login, password, phone, email }) => {
+		fetch('https://example', {
+			method: 'POST',
+			body: JSON.stringify({ login, password, phone, email, star_wars_data }),
 		});
-	};
-
-	const handleCheckbox = () => {
-		setCheckboxState((prev) => !prev);
-	};
-
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		if (
-			!formValue.email.includes('@') ||
-			formValue.phone.length < 9 ||
-			!checkboxState
-		)
-			setError({
-				email: !formValue.email.includes('@'),
-				phone: formValue.phone.length < 9,
-				checkbox: !checkboxState,
-			});
-		else {
-			setError(defaultErrorValue);
-			fetch('https://example', {
-				method: 'POST',
-				body: JSON.stringify({ formValue, star_wars_data }),
-			});
-		}
-	};
+	});
 
 	return (
 		<div className={classes.wrapper}>
 			<h1>Formularz rejestracyjny</h1>
 
-			<form onSubmit={handleSubmit}>
-				<label className={classes.labelLogin}>Login:</label>
+			<form onSubmit={onSubmit}>
+				<label
+					className={`${classes.labelLogin} ${
+						errors.login ? classes.invalid : ''
+					}`}
+					htmlFor='login'
+				>
+					Login:
+				</label>
 				<input
 					id='login'
 					type='text'
-					value={formValue.login}
-					onChange={handleOnChange}
+					{...register('login', {
+						required: true,
+					})}
 				/>
-				<label className={classes.labelPassword}>Hasło:</label>
+				<label
+					className={`${classes.labelPassword} ${
+						errors.password ? classes.invalid : ''
+					}`}
+					htmlFor='password'
+				>
+					Hasło:
+				</label>
 				<input
 					id='password'
 					type='password'
-					value={formValue.password}
-					onChange={handleOnChange}
+					{...register('password', {
+						required: true,
+					})}
 				/>
 
 				<label
 					className={`${classes.labelEmail} ${
-						error.email ? classes.invalid : ''
+						errors.email ? classes.invalid : ''
 					}`}
+					htmlFor='email'
 				>
 					E-mail:
 				</label>
 				<input
 					id='email'
 					type='email'
-					value={formValue.email}
-					onChange={handleOnChange}
+					{...register('email', {
+						required: true,
+						validate: (value) => isValidEmail(value),
+					})}
 				/>
 
 				<label
 					className={`${classes.labelPhone} ${
-						error.phone ? classes.invalid : ''
+						errors.phone ? classes.invalid : ''
 					}`}
+					htmlFor='phone'
 				>
 					Numer telefonu:
 				</label>
 				<input
 					id='phone'
 					type='tel'
-					value={formValue.phone}
-					onChange={handleOnChange}
+					{...register('phone', {
+						required: true,
+						minLength: 9,
+						maxLength: 9,
+						pattern: /^\d+$/,
+					})}
 				/>
 
 				<div
 					className={`${classes.checkboxContainer} ${
-						error.checkbox ? classes.invalid : ''
+						errors.checkbox ? classes.invalid : ''
 					}`}
 				>
 					<label>
-						<input type='checkbox' id='checkbox' onClick={handleCheckbox} />
+						<input
+							type='checkbox'
+							id='checkbox'
+							{...register('checkbox', {
+								required: true,
+							})}
+						/>
 						<span className={classes.altCheckbox}>
-							{error.checkbox ? <CheckboxInvalid /> : <Checkbox />}
+							{errors.checkbox ? <CheckboxInvalid /> : <Checkbox />}
 						</span>
 						<p>Akceptuję Regulamin</p>
 					</label>

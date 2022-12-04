@@ -5,35 +5,32 @@
 	max-width: 100%;
 
 	h1 {
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-		margin: 10.1rem auto auto auto;
-		max-width: 75.29rem;
-		height: 5.26rem;
+		max-width: 75.3rem;
+		margin: 5rem auto auto auto;
 		font-family: 'Inter', 'sans-serif';
 		font-size: 2rem;
 		font-weight: 800;
 		text-transform: uppercase;
 		text-align: right;
-		line-height: 3.3rem;
-		letter-spacing: 0.31rem;
+		line-height: 5.3rem;
+		letter-spacing: 0.3rem;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
 		position: relative;
-		margin: 1.24rem auto auto auto;
-		padding-top: 6.5rem;
-		max-width: 75.29rem;
+		padding-top: 5rem;
+		margin: 0 auto;
+		max-width: 75.3rem;
 		font-family: 'Inter', 'sans-serif';
 
 		label {
 			display: flex;
 			align-items: center;
+			margin: 2.2rem 0;
 			width: 100%;
-			height: 4.34rem;
+			height: 3rem;
 			font-weight: 700;
 			font-size: 2rem;
 			line-height: 3.3rem;
@@ -41,27 +38,18 @@
 
 		input {
 			max-width: 75.29rem;
-			height: 4.65rem;
+			height: 4rem;
 			font-size: 2rem;
 			line-height: 3.3rem;
 			border: none;
-			border-bottom: 0.16rem solid var(--black);
+			border-bottom: 0.1rem solid var(--black);
 		}
 
 		input:focus {
 			outline: none;
 		}
-
-		.labelPassword {
-			margin: 2.45rem 0 0.15rem 0;
-		}
-		.labelEmail {
-			margin: 2.3rem 0 0.31rem 0;
-		}
-		.labelPhone {
-			margin: 2.16rem 0 0.59rem 0;
-		}
-
+		.labelLogin::after,
+		.labelPassword::after,
 		.labelEmail::after,
 		.labelPhone::after {
 			position: absolute;
@@ -73,16 +61,28 @@
 			color: var(--red);
 		}
 
+		.invalid.labelLogin::after {
+			content: 'Login jest wymagany';
+			bottom: -9rem;
+			right: 0;
+		}
+
+		.invalid.labelPassword::after {
+			content: 'Hasło jest wymagane';
+			bottom: -9rem;
+			right: 0;
+		}
+
 		.invalid.labelEmail::after {
 			content: 'Nieprawidłowy format adresu e-mail';
-			bottom: -7.66rem;
-			right: 0.4rem;
+			bottom: -9rem;
+			right: 0;
 		}
 
 		.invalid.labelPhone::after {
 			content: 'Nieprawidłowy numer telefonu';
-			bottom: -7.96rem;
-			right: 0.1rem;
+			bottom: -9rem;
+			right: 0;
 		}
 
 		.invalid {
@@ -97,15 +97,11 @@
 			display: flex;
 			align-items: center;
 			position: relative;
-			margin-top: 3.18rem;
+			margin-top: 1.5rem;
 			width: fit-content;
 
 			input {
 				display: none;
-			}
-
-			p {
-				margin-top: 0.3rem;
 			}
 
 			.altCheckbox {
@@ -130,7 +126,7 @@
 				content: 'Wymagana akceptacja';
 				position: absolute;
 				left: 5.5rem;
-				bottom: -1.5rem;
+				bottom: -0.5rem;
 				font-style: italic;
 				font-weight: 300;
 				font-size: 1.5rem;
@@ -142,8 +138,9 @@
 		.submitBtn {
 			position: relative;
 			margin: 2rem auto;
-			width: 22.43rem;
-			height: 5.49rem;
+			padding: 0 0 0.5rem 0;
+			width: 22.4rem;
+			height: 5.5rem;
 			outline: none;
 			border: none;
 			border-radius: 2rem;
@@ -151,11 +148,6 @@
 			box-shadow: 1rem 0.4rem 0.4rem rgba(0, 0, 0, 0.75);
 
 			p {
-				position: absolute;
-				left: 1.4rem;
-				top: 1rem;
-				width: 19.56rem;
-				height: 3.47rem;
 				font-family: 'Lato', 'sans-serif';
 				font-style: italic;
 				font-weight: 400;
@@ -173,8 +165,8 @@
 		position: absolute;
 		top: 0;
 		right: 0;
-		width: 16.62rem;
-		height: 0.93rem;
+		width: 16.6rem;
+		height: 0.9rem;
 		background-color: var(--blue);
 	}
 }
@@ -184,41 +176,56 @@
 		padding: 0;
 
 		h1 {
-			margin: 10.1rem 17rem auto auto;
-			width: 89.7rem;
+			margin: 10rem 17rem auto auto;
 		}
 
 		form {
-			margin: 1.24rem 17.4rem auto auto;
+			margin: 1.2rem auto auto auto;
+			transform: translateX(1.5rem);
 
+			.labelLogin::after,
+			.labelPassword::after,
 			.labelEmail::after,
 			.labelPhone::after {
 				font-size: 2rem;
 				line-height: 3.3rem;
 			}
 
+			.invalid.labelLogin::after {
+				bottom: -9.5rem;
+				right: 0.3rem;
+			}
+
+			.invalid.labelPassword::after {
+				bottom: -9.5rem;
+				right: 0.3rem;
+			}
+
 			.invalid.labelEmail::after {
-				bottom: -8.2rem;
+				bottom: -9.5rem;
 				right: 0.3rem;
 			}
 
 			.invalid.labelPhone::after {
-				bottom: -8.16rem;
+				bottom: -9.3rem;
 				right: 0.1rem;
 			}
 
 			.checkboxContainer {
 				&.invalid::before {
 					content: 'Wymagana akceptacja regulaminu';
-					right: -35.9rem;
+					right: -36rem;
 					left: auto;
-					bottom: 0.3rem;
+					bottom: 2rem;
 					font-size: 2rem;
 					line-height: 3.3rem;
 				}
+				p {
+					margin-top: 0.3rem;
+				}
 			}
 			.submitBtn {
-				margin: 2rem 26.4rem auto auto;
+				margin: 0.6rem auto auto auto;
 			}
 		}
 	}

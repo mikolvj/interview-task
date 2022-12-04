@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { IconCheck, IconStar } from 'components/Icons';
 import { ProfileDataContext } from 'providers/DataProvider';
-import ProfileBackgroundGradient from 'components/ProfileBackgroundGradient';
 
 const ProfilePage: React.FC = () => {
 	const {
@@ -21,14 +20,17 @@ const ProfilePage: React.FC = () => {
 			</header>
 			<section className={classes.section}>
 				<div className={classes.profileContainer}>
-					<ProfileBackgroundGradient />
 					<div className={classes.profileImage} />
 					<div className={classes.profileContent}>
-						<h1 className={characterName.length > 15 ? classes.smallerText : ''}>
-							{characterName}
-						</h1>
-						<h2>age: {age}</h2>
-						<h2>eye color: {eyeColor}</h2>
+						<div className={classes.profileText}>
+							<h1
+								className={characterName.length > 15 ? classes.smallerText : ''}
+							>
+								Name
+							</h1>
+							<h2>age: {age}</h2>
+							<h2>eye color: {eyeColor}</h2>
+						</div>
 						<div className={classes.iconStar}>
 							<IconStar />
 						</div>
