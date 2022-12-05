@@ -26,7 +26,7 @@ const ProfilePage: React.FC = () => {
 							<h1
 								className={characterName.length > 15 ? classes.smallerText : ''}
 							>
-								Name
+								{characterName}
 							</h1>
 							<h2>age: {age}</h2>
 							<h2>eye color: {eyeColor}</h2>
